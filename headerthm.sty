@@ -44,33 +44,33 @@
 \makeatletter
 
 % Internal: define a theorem* environment named after label
-\newcommand{\newheaderthm}[1]{%
+\newcommand{\hthm@newheaderthm}[1]{%
   \newtheorem*{__headertheorem__#1}{\cref{#1}}%
 }
 
 % Internal: begin the forward-reference header
-\newcommand{\startheaderthm}[1]{%
+\newcommand{\hthm@startheaderthm}[1]{%
   \begin{__headertheorem__#1}%
 }
 
 % Internal: end the forward-reference header
-\newcommand{\finishheaderthm}[1]{%
+\newcommand{\hthm@finishheaderthm}[1]{%
   \end{__headertheorem__#1}%
 }
 
 % Internal placeholder for footer until end of environment
-\newcommand{\headerthmfooter}{}%
+\newcommand{\hthm@headerthmfooter}{}%
 
 % Public environment: user only calls \begin{headerthm} / \end{headerthm}
 \newenvironment{headerthm}[1]{%
   % Define and start header block for label
-  \newheaderthm{#1}%
-  \startheaderthm{#1}%
+  \hthm@newheaderthm{#1}%
+  \hthm@startheaderthm{#1}%
   % Defer footer until \end{headerthm}
-  \renewcommand{\headerthmfooter}{\finishheaderthm{#1}}%
+  \renewcommand{\hthm@headerthmfooter}{\hthm@finishheaderthm{#1}}%
 }{%
   % Insert footer
-  \headerthmfooter%
+  \hthm@headerthmfooter%
 }
 
 \makeatother
