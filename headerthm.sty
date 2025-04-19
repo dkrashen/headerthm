@@ -39,38 +39,38 @@
 
 % Load required packages
 \RequirePackage{amsthm}
-\RequirePackage{cleveref}
+\RequirePackage[capitalize]{cleveref}
 
 \makeatletter
 
 % Internal: define a theorem* environment named after label
-\newcommand{\__newheaderthm}[1]{%
-  \newtheorem*{__headertheorem__##1}{\cref{##1}}%
+\newcommand{\newheaderthm}[1]{%
+  \newtheorem*{__headertheorem__#1}{\cref{#1}}%
 }
 
 % Internal: begin the forward-reference header
-\newcommand{\__startheaderthm}[1]{%
-  \begin{__headertheorem__##1}%
+\newcommand{\startheaderthm}[1]{%
+  \begin{__headertheorem__#1}%
 }
 
 % Internal: end the forward-reference header
-\newcommand{\__finishheaderthm}[1]{%
-  \end{__headertheorem__##1}%
+\newcommand{\finishheaderthm}[1]{%
+  \end{__headertheorem__#1}%
 }
 
 % Internal placeholder for footer until end of environment
-\newcommand{\__headerthmfooter}{}%
+\newcommand{\headerthmfooter}{}%
 
 % Public environment: user only calls \begin{headerthm} / \end{headerthm}
 \newenvironment{headerthm}[1]{%
   % Define and start header block for label
-  \__newheaderthm{#1}%
-  \__startheaderthm{#1}%
+  \newheaderthm{#1}%
+  \startheaderthm{#1}%
   % Defer footer until \end{headerthm}
-  \renewcommand{\__headerthmfooter}{\__finishheaderthm{#1}}%
+  \renewcommand{\headerthmfooter}{\finishheaderthm{#1}}%
 }{%
   % Insert footer
-  \__headerthmfooter%
+  \headerthmfooter%
 }
 
 \makeatother

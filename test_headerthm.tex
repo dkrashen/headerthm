@@ -1,0 +1,51 @@
+\documentclass{article}
+
+
+\usepackage{amsmath}    % for aligned equations, etc.
+\usepackage{amssymb}    % provides \mathbb, \mathfrak, etc.
+\usepackage{amsthm}     % for theorem environments
+
+% load your headerthm package
+\usepackage{headerthm}
+
+% Define the “theorem” environment (numbered by section)
+\newtheorem{theorem}{Theorem}[section]
+
+\begin{document}
+
+\title{Testing the \texttt{headerthm} Package}
+\author{}
+\date{\today}
+\maketitle
+
+\section*{Forward‐Referenced Statement}
+
+Here we announce a theorem before its real statement appears later:
+
+\begin{headerthm}{thm:sample} \label{header-reference}
+  Let \(x,y\in\mathbb{R}\). Then
+  \[
+    (x+y)^2 = x^2 + 2xy + y^2.
+  \]
+\end{headerthm}
+
+\bigskip
+See page~\pageref{thm:sample} for the discussion and proof.
+
+\newpage
+
+\section{Theorem and Proof}
+
+\begin{theorem}\label{thm:sample}
+  Let \(x,y\in\mathbb{R}\). Then
+  \[
+    (x+y)^2 = x^2 + 2xy + y^2.
+  \]
+\end{theorem}
+\begin{proof}
+  Expand \((x+y)^2\) directly and collect like terms.
+\end{proof}
+
+As promised, the forward–referenced theorem on page~\pageref{header-reference} matches Theorem~\ref{thm:sample} here.
+
+\end{document}
