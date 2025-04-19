@@ -33,11 +33,6 @@
 %   \begin{headerthm}{<label>}  Start a forward-reference theorem header
 %   \end{headerthm}              End the header theorem block (automatically references later theorem)
 %
-% Internal Macros (do not call directly):
-%   \__newheaderthm{<label>}       Defines the internal theorem* environment
-%   \__startheaderthm{<label>}     Begins the internal header header block
-%   \__finishheaderthm{<label>}    Ends the internal header block
-%   \__headerthmfooter            Placeholder for deferred footer
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{headerthm}[2025/04/19 v1.0 Forward-reference theorem headers]
@@ -45,6 +40,8 @@
 % Load required packages
 \RequirePackage{amsthm}
 \RequirePackage{cleveref}
+
+\makeatletter
 
 % Internal: define a theorem* environment named after label
 \newcommand{\__newheaderthm}[1]{%
@@ -75,6 +72,8 @@
   % Insert footer
   \__headerthmfooter%
 }
+
+\makeatother
 
 \endinput
 
