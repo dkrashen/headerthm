@@ -1,33 +1,80 @@
+% headerthm.sty
+%
+% Package: headerthm
+% Version: 1.0
+% Date: 2025-04-19
+% Author: Danny K. (replace with your name)
+% License: MIT
+%
+% Description:
+%   Allows you to state a theorem at the beginning of your document
+%   referencing a theorem defined later, with consistent numbering
+%   and a forward reference in its title.
+%
+% Dependencies:
+%   amsthm    - Provides theorem environments
+%   cleveref  - Enables \cref for smart references
+%
+% Usage:
+%   % In your document preamble:
+%   \usepackage{headerthm}
+%
+%   % Early in the document (e.g., in the introduction):
+%   \begin{headerthm}{thm:main}
+%     % Optional explanatory text or summary
+%   \end{headerthm}
+%
+%   % Later in the document:
+%   \begin{theorem}\label{thm:main}
+%     % Actual theorem statement.
+%   \end{theorem}
+%
+% User Commands:
+%   \begin{headerthm}{<label>}  Start a forward-reference theorem header
+%   \end{headerthm}              End the header theorem block (automatically references later theorem)
+%
+% Internal Macros (do not call directly):
+%   \__newheaderthm{<label>}       Defines the internal theorem* environment
+%   \__startheaderthm{<label>}     Begins the internal header header block
+%   \__finishheaderthm{<label>}    Ends the internal header block
+%   \__headerthmfooter            Placeholder for deferred footer
+
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{headerthm}
+\ProvidesPackage{headerthm}[2025/04/19 v1.0 Forward-reference theorem headers]
 
 % Load required packages
-\RequirePackage{amsthm} % Ensure theorem support
-\RequirePackage{cleveref} % For cref functionality
+\RequirePackage{amsthm}
+\RequirePackage{cleveref}
 
-% Define theorem commands
-\newcommand{\newheaderthm}[1]{
-  \newtheorem*{__headertheorem__#1}{\cref{#1}}
+% Internal: define a theorem* environment named after label
+\newcommand{\__newheaderthm}[1]{%
+  \newtheorem*{__headertheorem__##1}{\cref{##1}}%
 }
 
-\newcommand{\startheaderthm}[1]{
-  \begin{__headertheorem__#1}
+% Internal: begin the forward-reference header
+\newcommand{\__startheaderthm}[1]{%
+  \begin{__headertheorem__##1}%
 }
 
-\newcommand{\finishheaderthm}[1]{
-  \end{__headertheorem__#1}
+% Internal: end the forward-reference header
+\newcommand{\__finishheaderthm}[1]{%
+  \end{__headertheorem__##1}%
 }
 
-\newcommand{\headerthmfooter}{}
+% Internal placeholder for footer until end of environment
+\newcommand{\__headerthmfooter}{}%
 
-\newenvironment{headerthm}[1]
-{
-  \newheaderthm{#1}
-  \startheaderthm{#1}
-  \renewcommand{\headerthmfooter}{\finishheaderthm{#1}}
-}
-{
-  \headerthmfooter
+% Public environment: user only calls \begin{headerthm} / \end{headerthm}
+\newenvironment{headerthm}[1]{%
+  % Define and start header block for label
+  \__newheaderthm{#1}%
+  \__startheaderthm{#1}%
+  % Defer footer until \end{headerthm}
+  \renewcommand{\__headerthmfooter}{\__finishheaderthm{#1}}%
+}{%
+  % Insert footer
+  \__headerthmfooter%
 }
 
 \endinput
+
