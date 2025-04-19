@@ -1,0 +1,33 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{headerthm}
+
+% Load required packages
+\RequirePackage{amsthm} % Ensure theorem support
+\RequirePackage{cleveref} % For cref functionality
+
+% Define theorem commands
+\newcommand{\newheaderthm}[1]{
+  \newtheorem*{__headertheorem__#1}{\cref{#1}}
+}
+
+\newcommand{\startheaderthm}[1]{
+  \begin{__headertheorem__#1}
+}
+
+\newcommand{\finishheaderthm}[1]{
+  \end{__headertheorem__#1}
+}
+
+\newcommand{\headerthmfooter}{}
+
+\newenvironment{headerthm}[1]
+{
+  \newheaderthm{#1}
+  \startheaderthm{#1}
+  \renewcommand{\headerthmfooter}{\finishheaderthm{#1}}
+}
+{
+  \headerthmfooter
+}
+
+\endinput
